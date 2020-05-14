@@ -1,0 +1,17 @@
+name: Deploy
+
+on: 
+  push:
+    branches: master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: start deploy script via ssh
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: ./deploy/server.sh ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
