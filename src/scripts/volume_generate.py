@@ -10,7 +10,7 @@ today_volume_coll = db.get_collection(variables.MONGO_TODAY_VOLUME_COLL)
 hist_volume_coll = db.get_collection(variables.MONGO_HISTORY_VOLUME_COLL)
 
 RANDOM_MINUTE_RANGE=720
-mixers = [2.5, 5, 7]
+mixers = [2.5, 3, 3, 3, 3, 3, 5, 5, 5, 5, 7]
 low_volume = 180
 max_volume = 280
 start_hour_ = 8
