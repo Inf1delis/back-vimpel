@@ -12,7 +12,6 @@ log.configure_logging(variables.REDIRECTION_TO_TELEGRAM_LOGFILE)
 def redirection_to_telegram():
     try:
         content = request.json
-        print(content)
         if content is not None:
             if content.get("name") is not None and \
                     content.get("phone") is not None:
