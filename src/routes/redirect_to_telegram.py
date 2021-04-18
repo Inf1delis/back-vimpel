@@ -17,8 +17,8 @@ cols = {
 def handle_order(order_d):
     table = []
     goods = order_d['goods']
-    table += ['\t'.join([cols[k] for k in goods[0]])]
-    template = '\t'.join(["{"+k+"}" for k in goods[0]])
+    table += ['  '.join([cols[k] for k in goods[0]])]
+    template = '  '.join(["{"+k+"}" for k in goods[0]])
 
     for d in goods:
         table += [template.format(**d)]
@@ -45,10 +45,10 @@ def redirection_to_telegram():
                 text_a += ['Адрес: ' + content["address"]]
 
             if content.get('order'):
-                text_a += ['Заказ:\n' + handle_order(content["order"])]
+                text_a += ['\nЗаказ:\n' + handle_order(content["order"])]
             
             if content.get('desc'):
-                text_a += ['Описание: ' + content["desc"]]
+                text_a += ['\nОписание: ' + content["desc"]]
             if text_a:
                 text = '\n'.join(text_a)
                 for user_id in variables.USERS_ID_TO_SEND:
