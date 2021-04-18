@@ -7,6 +7,12 @@ from telegram_bot.bot import bot
 
 log.configure_logging(variables.REDIRECTION_TO_TELEGRAM_LOGFILE)
 
+cols = {
+    'tovar': 'Товар',
+    'selected': 'Тип',
+    'price': 'Цена',
+    'quantity': 'Количество'
+}
 
 def handle_order(order_d):
     table = []
