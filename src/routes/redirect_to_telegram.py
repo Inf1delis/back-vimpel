@@ -17,7 +17,7 @@ cols = {
 def handle_order(order_d):
     table = []
     goods = order_d['goods']
-    table += ['  '.join([cols[k] for k in goods[0]])]
+    table += ['  '.join([cols[k] for k in cols])]
     template = '  '.join(["{"+k+"}" for k in cols])
 
     for d in goods:
