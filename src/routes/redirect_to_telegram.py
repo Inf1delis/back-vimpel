@@ -37,12 +37,18 @@ def redirection_to_telegram():
             text_a = []
             if content.get("name"):
                 text_a += ['Имя: ' + content["name"]]
+            
             if content.get("phone"):
                 text_a += ['Телефон: ' + content["phone"]]
-            if content.get('desc'):
-                text_a += ['Описание: ' + content["desc"]]
+            
+            if content.get('address'):
+                text_a += ['Адрес: ' + content["address"]]
+
             if content.get('order'):
                 text_a += ['Заказ:\n' + handle_order(content["order"])]
+            
+            if content.get('desc'):
+                text_a += ['Описание: ' + content["desc"]]
             if text_a:
                 text = '\n'.join(text_a)
                 for user_id in variables.USERS_ID_TO_SEND:
