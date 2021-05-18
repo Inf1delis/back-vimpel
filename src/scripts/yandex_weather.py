@@ -27,7 +27,7 @@ def yandex_weather():
 
         data = []
 
-        for day in mydivs[4:11]:
+        for day in mydivs[1:8]:
             temps = day.findAll('span', class_='temp__value')
             day_data = {
                 'weekday': day.find("div", class_="forecast-briefly__name").text,
@@ -47,4 +47,4 @@ def yandex_weather():
 
 
 if __name__ == "__main__":
-    yandex_weather()
+    print(yandex_weather())
