@@ -1,16 +1,31 @@
 import http.client
+
 from bs4 import BeautifulSoup
-import variables
 
 import common.log as log
+import variables
+
 log.configure_logging(variables.YANDEX_WEATHER_LOGFILE)
+
+HEADERS = {
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"
+}
+
+
+def weather_redirect_request():
+    url = "/pogoda/irkutsk"
+    for _ in range(3):
+        conn = http.client.HTTPSConnection("yandex.ru")
+        conn.request("GET", url, headers=HEADERS)
+        response = conn.getresponse()
+        if response.status not in (301, 302):
+            return response
+        url = response.getheader("Location")
 
 
 def yandex_weather():
     try:
-        conn = http.client.HTTPSConnection("yandex.ru")
-        conn.request("GET", "/pogoda/irkutsk")
-        response = conn.getresponse()
+        response = weather_redirect_request()
         str_resp = response.read().decode("utf-8")
         soup = BeautifulSoup(str_resp, 'html.parser')
         # day = soup.find("div", class_="fact")
@@ -23,7 +38,7 @@ def yandex_weather():
         #     'term_value': day.find('div', class_='fact__humidity').find('div', 'term__value')["aria-label"].split(':')[1].strip(),
         #     'feel_temp': day.find('div', class_='fact__feelings').find('span', class_='temp__value').text
         # }
-        mydivs = soup.findAll("div", class_="forecast-briefly__day")
+        mydivs = soup.findAll("li", class_="forecast-briefly__day")
 
         data = []
 
@@ -32,8 +47,10 @@ def yandex_weather():
             day_data = {
                 'weekday': day.find("div", class_="forecast-briefly__name").text,
                 'date': day.find("time").string,
-                'condition_img': day.find("div", class_="forecast-briefly__condition").text.lower().replace(' ',
-                                                                                                            '_') + '.svg',
+                'condition_img': day.find("div", class_="forecast-briefly__condition").text.lower().replace(
+                    ' ',
+                    '_'
+                ) + '.svg',
                 'day_temp': temps[0].string.replace('−', '-'),
                 'night_temp': temps[1].string.replace('−', '-')
             }
